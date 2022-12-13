@@ -1,0 +1,129 @@
+.body {
+  padding-top: 100px;
+  background-color: rgba(0, 207, 253, 0.97);
+  font-family: Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, sans-serif;
+  text-shadow: 1px 1px 6px #000;
+}
+
+.body.results {
+  padding-top: 0px;
+}
+
+.heading {
+  color: #ffd062;
+  font-size: 45px;
+  text-align: center;
+}
+
+.paragraph {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  color: #000;
+}
+
+.paragraph.affwcrt {
+  text-shadow: none;
+}
+
+.utility-page-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100%;
+  max-width: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.utility-page-content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 260px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  text-align: center;
+}
+
+.utility-page-form {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+.field-label {
+  margin-right: auto;
+}
+
+.form-block {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.submit-button {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.columns {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.image {
+  display: block;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.text-block {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #000;
+  color: #fff;
+}
+
+.text-block.name {
+  background-color: rgba(90, 70, 70, 0);
+  color: #ffd073;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.div-block {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
