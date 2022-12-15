@@ -6,7 +6,7 @@ My web app is online and accessbile at: [https://xintaiao.online/]
 
 To replicate my senior comprehensive project in the instanse you change/add features to it, follow these steps:
 
-- Download the SQL files "UE_all_food.sql" and "GH_all_food"
+- Download the SQL files "UE_all_food.sql" and "GH_all_food" from "Scrapers and Data" folder
 - Next you will have to mimci creating a host server and client using localhost and XAMPP
 - Download the a version of XAMPP compatible with your device.
 - Install and set up XAMPP
