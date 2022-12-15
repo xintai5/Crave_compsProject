@@ -177,53 +177,63 @@ for individual_excel_file in excel_files:
 Intial search code that parsed through each csv file of UberEats and GrubHub individual food items.
 
 ```
-$sql = "(SELECT * FROM `UE_all_food` WHERE `Dish_name` LIKE '%".$searchquery."%'  ORDER BY `Dish_price`)
-        UNION
-        (SELECT * FROM `GH_all_food` WHERE `Dish_name` LIKE '%".$searchquery."%'  ORDER BY `Dish_price`) LIMIT 20";
+//UberEats list
+
+$sql = "(SELECT * FROM `UE_all_food` WHERE `Dish_name` LIKE '%".$searchquery."%'  ORDER BY `Dish_price`) LIMIT 20";
+
+//GrubHub list
+
+$sql2 = "(SELECT * FROM `GH_all_food` WHERE `Dish_name` LIKE '%".$searchquery."%'  ORDER BY `Dish_price`) LIMIT 20";
 
 $result= mysqli_query($conn, $sql);
+$result2 = mysqli_query($conn, $sql2);
 
-while($row = $result->fetch_array(MYSQLI_ASSOC)){
+while($row = $result->fetch_array(MYSQLI_ASSOC) AND $row2 = $result2->fetch_array(MYSQLI_ASSOC)){
     
- $UErestaurantName = $row["Restaurant_name"];
- $UEdishName = $row["Dish_name"];
- $UEdishPrice = $row["Dish_price"];
- $UEdeliveryFee = $row["Delivery_Fee"];
- $UEdeliveryTime = $row["Delivery_Time"];
+    $UErestaurantName = $row["Restaurant_name"];
+    $UEdishName = $row["Dish_name"];
+    $UEdishPrice = $row["Dish_price"];
+    $UEdeliveryFee = $row["Delivery_Fee"];
+    $UEdeliveryTime = $row["Delivery_Time"];
  
- $GHrestaurantName = $row["Restaurant_name"];
- $GHdishName = $row["Dish_name"];
- $GHdishPrice = $row["Dish_price"];
- $GHdeliveryFee = $row["Delivery_Fee"];
- $GHdeliveryTime = $row["Delivery_Time"];
+ //while($row = $result2->fetch_array(MYSQLI_ASSOC)){
+
+    $GHrestaurantName = $row2["Restaurant_name"];
+    $GHdishName = $row2["Dish_name"];
+    $GHdishPrice = $row2["Dish_price"];
+    $GHdeliveryFee = $row2["Delivery_Fee"];
+    $GHdeliveryTime = $row2["Delivery_Time"];
  
- echo '<div class="w-row">
-    <div class="w-col w-col-6">
-      <div class="div-block" style="margin-bottom:1px;">
-        <div class="text-block">'.$UErestaurantName.'<br>‍</div>
-        <div class="text-block">'.$UEdishName.'</div>
-        <div class="text-block">'.$UEdishPrice.'<br>‍</div>
-        <div class="text-block">'.$UEdeliveryFee.'<br>‍</div>
-        <div class="text-block">'.$UEdeliveryTime.'<br></div>
-      </div>
-      </div>
-      <div class="w-col w-col-6">
-      <div class="div-block" style="margin-bottom:1px;">
-        <div class="text-block">'.$GHrestaurantName.'<br>‍</div>
-        <div class="text-block">'.$GHdishName.'</div>
-        <div class="text-block">'.$GHdishPrice.'<br>‍</div>
-        <div class="text-block">'.$GHdeliveryFee.'<br>‍</div>
-        <div class="text-block">'.$GHdeliveryTime.'<br></div>
-      </div>
-    </div>
-  </div>';
+    echo '<div class="w-row">
+        <div class="w-col w-col-6">
+          <div class="div-block" style="margin-bottom:1px;">
+            <div class="text-block">'.$UErestaurantName.'<br>‍</div>
+            <div class="text-block">'.$UEdishName.'</div>
+            <div class="text-block">'.$UEdishPrice.'<br>‍</div>
+            <div class="text-block">'.$UEdeliveryFee.'<br>‍</div>
+            <div class="text-block">'.$UEdeliveryTime.'<br></div>
+          </div>
+          </div>
+          <div class="w-row">
+          <div class="w-col w-col-6">
+           <div class="div-block" style="margin-bottom:1px;">
+            <div class="text-block">'.$GHrestaurantName.'<br>‍</div>
+            <div class="text-block">'.$GHdishName.'</div>
+            <div class="text-block">'.$GHdishPrice.'<br>‍</div>
+            <div class="text-block">'.$GHdeliveryFee.'<br>‍</div>
+            <div class="text-block">'.$GHdeliveryTime.'<br></div>
+          </div>
+          </div>
+        </div>
+      </div>';
  
+        //}
     }if ($resutsisNone = "true"){
         echo '<div class="text-block">We could not find anymore matching food items to your search.</div>';
 }
 ```
 
-This function in the result.php file (lines 53-96) under the public_html folder is a very important function. This function takes the data within the phpMyAdmin page and  outputs the two lists of user search results in relation to the SQL files containing the large amount UberEats and GrubHub webscrapped data.
+This function in the result.php file (lines 50-103) under the public_html folder is a very important function. This function takes the data within the phpMyAdmin page and  outputs the two lists of user search results in relation to the SQL files containing the large amount UberEats and GrubHub webscrapped data.
 
 ```
   <p class="paragraph affwcrt">Please enter desired food item:</p>
