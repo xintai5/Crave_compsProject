@@ -17,8 +17,8 @@ To replicate my senior comprehensive project in the instanse you change/add feat
 
 # Code Architecture
 
-'
-$sql = "SELECT * FROM `UE_all_food` WHERE `Dish_name` LIKE '%".$searchquery."%'  ORDER BY `Dish_price`";
+
+'$sql = "SELECT * FROM `UE_all_food` WHERE `Dish_name` LIKE '%".$searchquery."%'  ORDER BY `Dish_price`";
 
 
 
@@ -35,7 +35,6 @@ $resutsisNone = "false";
  $deliveryTime = $row["Delivery_Time"];
  
 
- 
  echo '<div class="w-row">
     <div class="w-col w-col-6">
       <div class="div-block" style="margin-bottom:10px;">
@@ -60,13 +59,11 @@ $resutsisNone = "false";
 }
 if ($resutsisNone = "true"){
     echo '<div class="text-block">We could not find anymore matching food items to your search.</div>';
-}
-'
+}'
 
 This function in the result.php file (lines 67-109) under the public_html folder is a very important function. This function takes the data within the phpMyAdmin page and  outputs the two lists of user search results in relation to the SQL files containing the large amount UberEats and GrubHub webscrapped data.
 
-'
-  <p class="paragraph affwcrt">Please enter desired food item:</p>
+'  <p class="paragraph affwcrt">Please enter desired food item:</p>
   <div class="form-block w-form">
     <form id="email-form" name="email-form" data-name="Email Form" action="results.php" method="get"><input type="text" class="w-input" maxlength="256" name="FoodSearchQuery" data-name="Email" placeholder="Ex: Burrito, Pad Thai, etc." id="email" required=""><input type="submit" value="Submit" data-wait="Please wait..." class="submit-button w-button"></form>
     <div class="w-form-done">
@@ -74,9 +71,7 @@ This function in the result.php file (lines 67-109) under the public_html folder
     </div>
     <div class="w-form-fail">
       <div>Oops! Something went wrong while submitting the form.</div>
-    </div>
-    
-'
+    </div>'
 
 This line of code within index.html (lines 19-27) output the intial text at the beginning of the web app before the user inputs their search key.
 
