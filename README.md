@@ -17,6 +17,165 @@ To replicate my senior comprehensive project in the instanse you change/add feat
 
 # Code Architecture
 
+```from selenium import webdriver
+import os
+
+
+def scrape_restaurants(base_url, location):
+    driver = webdriver.Chrome(executable_path="chromedriver_win32/chromedriver.exe")
+    driver.get(base_url + location)
+
+    categories = driver.find_element_by_xpath("/html/body/div/div/main/div[2]/div[3]"). \
+        text.replace(" ", "-").lower().splitlines()
+
+    for cat in categories:
+        try:
+            driver.get(base_url + location + "/" + cat)
+            temp_urls = driver.find_element_by_xpath("/html/body/div/div/main/div[5]").find_elements_by_tag_name("a")
+            for url in temp_urls:
+                out_file = open("temp_urls.txt", "a")
+                out_file.write(str(url.get_attribute("href")) + "\n")
+        except:
+            print("Skipped " + cat)
+
+    out_file.close()
+
+    lines_seen = set()  # holds lines already seen
+    out_file = open(location + "_restaurant_urls.txt", "w+")
+    for line in open("temp_urls.txt", "r"):
+        if line not in lines_seen:  # not a duplicate
+            out_file.write(line)
+            lines_seen.add(line)
+    out_file.close()
+
+    os.remove("temp_urls.txt")
+    
+```
+```
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import os
+import time
+import json
+
+
+def get_item(browser, id):
+    """ given an id, scrape a menu item and all of its options """
+    button = browser.find_element_by_id(id)
+    browser.execute_script("arguments[0].click();", button)
+    time.sleep(1)
+
+    innerHTML = browser.page_source
+    html = BeautifulSoup(innerHTML, 'html.parser')
+
+    _options = {}
+    options = html.find_all('div', class_='menuItemModal-options') # menuItemModal-choice-option-description
+    for option in options:
+        name = option.find(class_='menuItemModal-choice-name').text
+        choices = option.find_all('span', class_='menuItemModal-choice-option-description')
+        if ' + ' in choices[0].text:
+            _choices = {choice.text.split(' + ')[0]:choice.text.split(' + ')[1] for choice in choices}
+        else:
+            _choices = [choice.text for choice in choices]
+        _options[name] = _choices
+    return _options
+
+def get_menu(url):
+    """ given a valid grubhub url, scrape the menu of a restaurant """
+    print('Running...')
+    chrome_options = Options()
+    # To disable headless mode (for debugging or troubleshooting), comment out the following line:
+    chrome_options.add_argument("--headless")
+
+    browser = webdriver.Chrome(options=chrome_options)
+    browser.get(url)
+    time.sleep(10)
+    innerHTML = browser.page_source
+
+    html = BeautifulSoup(innerHTML, 'html.parser')
+
+    menu = html.find(class_="menuSectionsContainer");
+    if menu is None:
+        print('menu fail')
+        get_menu(url)
+        return
+    # Categories
+    cats = menu.find_all('ghs-restaurant-menu-section')
+    cats = cats[1:]
+
+    cat_titles = [cat.find('h3', class_='menuSection-title').text for cat in cats]
+    cat_items = [[itm.text for itm in cat.find_all('a', class_='menuItem-name')] for cat in cats]
+    prices = [[p.text for p in cat.find_all('span', class_='menuItem-displayPrice')] for cat in cats]
+
+    ids = []
+    for cat in cats:
+        cat_ids = []
+        items = cat.find_all('div', class_='menuItem-inner')
+        for item in items:
+            cat_ids.append(item.get('id'))
+        ids.append(cat_ids)
+
+    full_menu = {}
+    for ind, title in enumerate(cat_titles):
+        all_items = []
+        for ind2, itm_name in enumerate(cat_items[ind]):
+            item = {}
+            item['name'] = itm_name
+            item['price'] = prices[ind][ind2]
+            item['options'] = get_item(browser, ids[ind][ind2])
+            all_items.append(item)
+        full_menu[title] = all_items
+    path = '/'.join(os.path.realpath(__file__).split('/')[:-1])
+    with open(f'{path}/data.json', 'w') as f:
+        json.dump(full_menu, f, indent=4)
+    print('[Finished]')
+get_menu(input('Grubhub Link?  '))
+#example link: 'https://www.grubhub.com/restaurant/chipotle-5047-eagle-rock-blvd-los-angeles/2122168'
+```
+
+Intial respective UberEats and GrubHub scrapers used until better method was found (Octoparse: web-scrapping API).
+
+```
+import pandas as pd
+pd.set_option('display.width', 400)
+pd.set_option('display.max_columns', 10)
+pd.set_option('display.max_rows', 100000)
+
+
+excel_file ='UE_Individual restaurant menu items.xlsx'
+df = pd.read_excel(excel_file)
+df = df.where(df['Dish_category'] != 'Picked for you')  # Remove all 'picked for you' rows
+df = df.dropna()
+
+food_query = input("Food: ")
+
+
+restaurants = df['Restaurant_name'].where(df['Dish_name'] == food_query)
+sub = df.loc[df['Dish_name'].str.contains(food_query, case=False)]
+
+print(sub[['Restaurant_name', 'Dish_name', 'Dish_price']])
+"""
+, 'Delivery_Fee', 'Delivery_Time'
+"""
+# cuisine = df['Restaurant'].where(df['Cuisine'] == 'Asian')
+
+excel_files = ['GrubHub_Restaurants.xlsx', 'UberEats_Restaurants.xlsx']
+
+"""
+for individual_excel_file in excel_files:
+    df = pd.read_excel(individual_excel_file)
+    cuisine = df['Restaurant'].where(df['Cuisine'] == 'American').dropna()
+    print("File Name" + individual_excel_file)
+    print(cuisine)"""
+
+#asian = df['Name'].where(df['Cuisine'] == cuisine)
+
+#excel_files = ['GrubHub_RestaurantList.xlsx','UberEats_Restaurants.xlsx']
+
+```
+Intial search code that parsed through each csv file of UberEats and GrubHub individual food items.
+
 ```
 $sql = "SELECT * FROM `UE_all_food` WHERE `Dish_name` LIKE '%".$searchquery."%'  ORDER BY `Dish_price`";
 
