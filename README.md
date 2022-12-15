@@ -134,7 +134,7 @@ get_menu(input('Grubhub Link?  '))
 #example link: 'https://www.grubhub.com/restaurant/chipotle-5047-eagle-rock-blvd-los-angeles/2122168'
 ```
 
-Intial respective UberEats and GrubHub scrapers used until better method was found (Octoparse: web-scrapping API).
+Initial respective UberEats and GrubHub scrapers used until better method was found (Octoparse: web-scrapping API).
 
 ```
 import pandas as pd
